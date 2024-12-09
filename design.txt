@@ -1,0 +1,67 @@
+Tom Howes
+CS 5001 - Fall 24
+Final Project - Design
+
+The aim of this project was to build a Memory Match Game using turtle. Initially I began by reading the turtle graphics documentation by python.
+This gave me some initial ideas about how to simulate cards (with the ability to be flipped), buttons (able to be clicked) and update the player
+score in real-time. My project uses a mix of OOP and procedural programming and I will explain why in this design document.
+
+Gameboard:
+The gameboard (or display) was the first aspect I tackled, I used an OOP approach to create a class designed to draw the different frames for
+status, leaderboard and card playing area. The three components were similar in that they all required a pen of the same size and little to
+no animation, however they had a lot of variables so I felt that 3 separate methods would be a better implementation than a one-size-fits-all
+method.
+
+Card:
+Next, I needed to simulate a card. I knew that this card would be a turtle, however I needed a group of 8-12 cards that could 'flip' to another
+image when clicked and I could keep track of their values. Therefore I decided to create a class where each card has an ID number, image and 
+flipped boolean value. The ID number and image are shared between a 'pair' of cards but the flipped value is unique to each card. The class 
+also allows the card to be placed at an x, y coordinate and the matched method hides each pair of cards if they have been matched.
+
+Card_deck:
+The card deck is a class that uses two lists for cards and flipped cards. The check_flipped method will add any flipped cards to the flipped
+list and the check_match method will match (hide) and remove flipped cards from the list of cards. If no match has happened then
+reset_cards sets all cards to flipped = False. The check_win method simply checks whether the list of cards is empty and if so returns True.
+I did not feel the need to use any turtle functionality in this class, it is simply using lists to group cards and calling methods from the card class.
+
+Message:
+I noticed that game status / error messages shared very similar traits in terms of location, turtle behaviour etc. so I created a simple class
+to display a message given a gif (img) as a parameter.
+
+Stats:
+The last OOP module was stats which keeps track of the leaderboard and status. For the leaderboard initially I tried to use a dictionary,
+however I ran into issues with multiple scores for each player. It was proving difficult to iterate over nested lists as values in the dictionary
+and to sort by player score. Therefore I changed to a list. Any time the leaderboard is updated it is sorted and then operates as a stack-like
+data structure by popping any scores off the end of the list while it is longer than 8. The leaderboard is read from and written to the 'leaders.txt' file
+(this is so that it can be stored permanently outside of the runtime execution of the program). The status class updates the player status (moves, matches)
+from a dictionary that is updated in realtime based on player clicks (more on this in the main program section).
+
+Intro Sequence UI:
+The memory_game file main function starts with a splash screen using a logo and some title text. The logo is maintained while objects are initialized in order to hide
+some messy turtle UI while the other turtle objects are initialized. Next the player is prompted for their name, with a while loop ensuring that they can't
+leave it blank. The config file must be selected by the player (see below). The player must choose 8, 10 or 12 cards with a while loop defensively dealing with invalid numbers.
+
+Configuration File Access:
+Config file access can be managed by the user. First, the user must load 6 gifs into the "/gifs" directory and then create a *.cfg file with a list of
+the 6 gif file names e.g. dog1.gif . Next, the user can either enter the file name when prompted at game start, if left blank it will default to playing_cards.cfg. 
+Or, when the game has already loaded, the player can click the settings button next to the quit button, this will prompt them for a cfg file in the same way. 
+This can be done at any point before the game is finished and the remaining cards will be swapped for the desired deck.
+
+Randomness:
+To simulate as close to random shuffling of cards as possible I used two random integers. First, I created a randomly ordered list ('chosen') of ints 0-5 that
+determine which order the cards are added to the deck. Next, I hardcoded the x, y coordinates of the positions into a dictionary with tuple values. When using 
+a smaller deck (8 or 10), I found it easier and more aesthetic to delete positions from the bottom row rather than have the cards randomly dealt to any of the
+12 positions. Place_cards then again randomizes the placement of each individual card so that there is no pattern for the player to determine the position of the 
+cards if replaying the game.
+
+OOP vs Procedural (onclick functionality):
+The 'onclick' functions were placed within the main function as they can only take x and y as parameters and it seemed better to have everything in main rather than
+to give each of the individual data structures and objects global scope. I measured the width and height of each card 'gif' and hardcoded that into the function, so if
+the player clicks within that distance of the turtle the click is registerd on the card. The rest of the function uses dot notation to call methods from the deck class.
+The status dictionary and UI is updated with each 2 card flips and if the player has won the winning sequence is initiated.
+
+These onclick functions were also one of the main reasons I used a combination of procedural programming and OOP. Ideally, I would've liked to do as much OOP as possible to
+make the code cleaner and practise using it on a larger scale. However, due to the limitations of turtle without tkinter, I found it very challenging and impractical to program button
+and card clicks with OOP. On top of this, some smaller and unrelated functions such as add_positions, load_cards and intro_sequence served a specific, simple purpose and
+it did not make sense to give them their own individual classes.
+

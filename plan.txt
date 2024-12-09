@@ -1,0 +1,50 @@
+Files to Submit:
+    design.txt - Explaining design and trade-off decisions I made
+    memory_game.py = Includes main() function to run game
+    Helper Files
+Project notes:
+    DO NOT USE BACKWARDS SLASH for DIRECTORIES (must be cross-platform compatible) use fwd slash?
+    Zip project directory structure (follow instructions on Canvas) submit as .Zip
+    Can use my own "skin" and button images. All UI element placement and look-feel must be
+    consistent with example
+    1. pop-up window for name input
+    2. status area - guesses and matches (1 guess = 1 attempted match)
+    3. Read names of gif files from config files
+    4. Leaderboard (6 - 8 top players) lower guesses = better
+    5. Quit button (no stats added)
+    6. Win = victory message
+    7. Credits screen on end (optional)
+    8. Splash screen on start w/ logo (optional)
+    9. EXTRA CREDIT! = read card images from config file e.g. Dog card deck - add UI button to 
+        load different card deck
+
+Tasks:
+
+Draw gameboard (play area, status area, leaderboard outlines) Y
+Card placement & behaviour (flip on click or unsuccessful match, successful match = disappear etc.) Y
+Game behaviour (Updating moves counter, quit button, win message)
+Leaderboard(save/retrieve contents of the leaderboard (txt file))
+Load cards from config file
+Clean up and write design.txt
+
+TO DO:
+Get name input from user Y
+Function to write to leaders.txt Y
+Quit Button Y
+config file and alternate card types / numbers Y
+Error handling (leaderboard file not found, config file misuse) Y
+Game start / credits screens Y
+Cleaning up UI and back-end (OOP) Y
+
+Notes:
+Initially tried to write leaderboard to a dict but ran into
+issues with multiple scores (namely - iterability and sorting)
+So decided to use a list similarly to a stck instead with tuples (length immutable so easier to iterate over)
+Sorted stack-like structure means largest values always popped off the end
+
+Without tkinter I had to hardcode the locations of the buttons / cards for onclick to work
+
+
+
+
+
